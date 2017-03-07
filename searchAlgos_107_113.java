@@ -1,11 +1,72 @@
+package experiment.pkg4;
+
 import java.util.*;
+import java.io.*;
 
 public class searchAlgos_107_113{
 	static int source,dest,ch;
-	public static void main(String args[]){
+        static int no_of_nodes;  //Store number of nodes here.
+        static int list[][]; //Store adjacency matrix in this.
+	public static void main(String args[]) throws IOException{
 		MapOfRomania map=new MapOfRomania();
 		
-		Scanner sc=new Scanner(System.in);
+                
+                //Following is only to test validity of BFS Function
+                String FILENAME="C:\\Users\\hp\\Documents\\searchAlgosAI\\testFile.txt";
+                
+                FileReader fr=new FileReader(FILENAME);
+                
+                BufferedReader br = new BufferedReader(fr);
+                String sCurrentLine="";
+                int i=0;
+                int lineNum=0;
+                while ((sCurrentLine = br.readLine()) != null)
+                {
+                    if(lineNum==0)
+                    {
+                        no_of_nodes=Integer.parseInt(sCurrentLine);
+                        list=new int[no_of_nodes][no_of_nodes];
+                    }
+                    else
+                    {
+                        String adj[]=sCurrentLine.split(" ");
+                        for(int k=0;k<adj.length;k++)
+                        {
+                            list[i][k]=Integer.parseInt(adj[k]);
+                        }
+                        i++;
+                    }
+                    lineNum++;
+                }
+                
+                for (int k = 0; k < no_of_nodes; k++) {
+                    for (int j = 0; j < no_of_nodes; j++) {
+                        System.out.print(list[k][j]+" ");
+                    }
+                    System.out.println();
+                }
+                
+                Scanner sc=new Scanner(System.in);
+                try
+                {
+                    System.out.print("Enter Source node:");
+                    source=sc.nextInt();
+                    System.out.print("Enter Destination node:");
+                    dest=sc.nextInt();
+                    if(source>no_of_nodes||dest>no_of_nodes||source<0||dest<0)
+                        throw new Exception();
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Invalid source or destination entered!");
+                    System.out.print("Enter Source node:");
+                    source=sc.nextInt();
+                    System.out.print("Enter Destination node:");
+                    dest=sc.nextInt();
+                }
+                
+                bfs();
+		/*Scanner sc=new Scanner(System.in);
 		
 		System.out.println("Enter number of locations: ");
 		nos=sc.nextInt();
@@ -37,12 +98,54 @@ public class searchAlgos_107_113{
 		   case 3:bfs(down,0);
 			      break;
 		 }
-		}while(ch!=0);
-		
-		getch();
+		}while(ch!=0);*/
 	}
 	
-	void create_links()
+        static void bfs()
+	{
+            Vector visited=new Vector();
+            Vector toBeVisited=new Vector();
+            
+            int currentVisiting=source;
+//            toBeVisited.add(currentVisiting);
+            while(currentVisiting!=dest&&visited.size()<no_of_nodes)
+            {
+                System.out.println("Current Node Visited:"+currentVisiting);
+                if(currentVisiting==dest)
+                {
+                    System.out.println("Node found");
+                    break;
+                }
+                visited.add(currentVisiting);
+                for(int i=0;i<no_of_nodes;i++)
+                {
+                    if(list[currentVisiting][i]==1&&!visited.contains(i)&&!toBeVisited.contains(i))
+                        toBeVisited.add(i);
+                }
+                
+                //System.out.println(toBeVisited);
+                
+                int nextNode=dequeue(toBeVisited);
+                if(nextNode==-1)
+                    break;
+                else
+                    currentVisiting=nextNode;
+            }
+            if(currentVisiting!=dest)
+                System.out.println("Node not found!");
+            else
+                System.out.println("Node Found");
+	}
+        
+        static int dequeue(Vector v)
+        {
+            if(v.size()>0)
+                return (int)v.remove(0);
+            else
+                return -1;
+        }
+        
+	/*void create_links()
 	{
 	  int i,j,n,station;
 	  for(i=0;i<nos;i++)
@@ -62,10 +165,7 @@ public class searchAlgos_107_113{
 	    }
 	  }
 	}
-	static void BFS(int list[][MAX],int source,int dest)
-	{
-            
-	}
+	
 	void display_stations()
 	{
 	  int j;
@@ -78,7 +178,7 @@ public class searchAlgos_107_113{
 	  for(i=0;i<top;i++)
 	    printf("%s->",station_names[stack[i]]);
 	  printf("%s\n",station_names[stack[top]]);
-	}
+	}*/
 		
 	
 }
@@ -92,7 +192,7 @@ class MapOfRomania{
 	  System.out.println("Enter station names(in order):");
 	  for(int i=0;i<nos;i++)
 	  {
-	    scanf("%s",station_names[i]);
+	    //scanf("%s",station_names[i]);
 	  }
 	}
 }
