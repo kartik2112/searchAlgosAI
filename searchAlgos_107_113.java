@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class searchAlgos_107_113{
 	static int source,dest,ch;
 	public static void main(String args[]){
@@ -60,35 +62,9 @@ public class searchAlgos_107_113{
 	    }
 	  }
 	}
-	void dfs(int list[][MAX],int source,int dest)
+	static void BFS(int list[][MAX],int source,int dest)
 	{
-	  int visited[MAX]={0};
-	  int stack[MAX],top=-1,i,current;
-	  stack[++top]=source;
-	  visited[source]=1;
-	  while(top!=-1)
-	  {
-	    current=stack[top];
-	    if(current!=dest)
-	    {
-	      for(i=0;i<nos;i++)
-	      {
-		if(list[current][i]==1&&visited[i]==0)
-		{
-		  visited[i]=1;
-		  stack[++top]=i;
-		  break;
-		}
-	      }
-	    }
-	    else
-	    {
-	      display_list(stack,top);
-	      break;
-	    }
-	    if(i==nos)
-	      top--;
-	  }
+            
 	}
 	void display_stations()
 	{
