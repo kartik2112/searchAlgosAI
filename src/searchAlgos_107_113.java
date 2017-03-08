@@ -3,10 +3,10 @@ import java.util.*;
 
 public class searchAlgos_107_113{
 	static int source,dest,ch;
-	/*public static void main(String args[]){
+	public static void main(String args[]) throws Exception{
 		MapOfRomania map=new MapOfRomania();
-		
-		
+		map.displayMap();
+		/*
 		do
 		{ 
 		 printf("1.Up(Towards %s)\n",station_names[0]);
@@ -33,12 +33,12 @@ public class searchAlgos_107_113{
 		   case 3:bfs(down,0);
 			      break;
 		 }
-		}while(ch!=0);
+		}while(ch!=0);*/
 		
-		getch();
+		
 	}
 	
-	void create_links()
+	/*void create_links()
 	{
 	  int i,j,n,station;
 	  for(i=0;i<nos;i++)
@@ -84,8 +84,8 @@ class MapOfRomania{
     Vector<Integer> locationHeuristics=new Vector<Integer>();
     int distances[][];
         
-    public static final String MAP_PROPERTIES_FILE_PATH="MapProperties.txt";
-    public static final String MAP_HEURISTICS_FILE_PATH="MapHeuristics.txt";
+    public static final String MAP_PROPERTIES_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapProperties.txt";
+    public static final String MAP_HEURISTICS_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapHeuristics.txt";
 
     public MapOfRomania() throws FileNotFoundException,IOException{
         
@@ -108,8 +108,34 @@ class MapOfRomania{
             String dest=st.nextToken();
             int dist=Integer.parseInt(st.nextToken());
             
+            if(locationNames.indexOf(source)==-1){
+                System.out.println(source);
+            }
+            if(locationNames.indexOf(dest)==-1){
+                System.out.println(dest);
+            }
             distances[locationNames.indexOf(source)][locationNames.indexOf(dest)]=dist;
         }
     }
 	
+    void displayMap(){
+        for(int i=0;i<locationNames.size();i++){
+            System.out.print(locationNames.get(i));
+            if(i!=locationNames.size()-1){
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+        
+        for(int i=0;i<distances.length;i++){
+            for(int j=0;j<distances[i].length;j++){
+                System.out.print(String.format("%4s", distances[i][j]));
+                //System.out.print();
+                if(j!=distances[i].length-1){
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+        }
+    }
 }
