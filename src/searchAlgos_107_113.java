@@ -1,16 +1,12 @@
+import java.io.*;
 import java.util.*;
 
 public class searchAlgos_107_113{
 	static int source,dest,ch;
-	public static void main(String args[]){
+	/*public static void main(String args[]){
 		MapOfRomania map=new MapOfRomania();
 		
-		Scanner sc=new Scanner(System.in);
 		
-		System.out.println("Enter number of locations: ");
-		nos=sc.nextInt();
-		create_list();
-		create_links();
 		do
 		{ 
 		 printf("1.Up(Towards %s)\n",station_names[0]);
@@ -78,21 +74,42 @@ public class searchAlgos_107_113{
 	  for(i=0;i<top;i++)
 	    printf("%s->",station_names[stack[i]]);
 	  printf("%s\n",station_names[stack[top]]);
-	}
+	}*/
 		
 	
 }
 
 class MapOfRomania{
-	int nos;
+    Vector<String> locationNames=new Vector<String>();
+    Vector<Integer> locationHeuristics=new Vector<Integer>();
+    int distances[][];
+        
+    public static final String MAP_PROPERTIES_FILE_PATH="MapProperties.txt";
+    public static final String MAP_HEURISTICS_FILE_PATH="MapHeuristics.txt";
+
+    public MapOfRomania() throws FileNotFoundException,IOException{
+        
+        BufferedReader brProps=new BufferedReader(new FileReader(MAP_PROPERTIES_FILE_PATH));
+        BufferedReader brHeurs=new BufferedReader(new FileReader(MAP_HEURISTICS_FILE_PATH));
+              
+        String line;
+        while((line=brHeurs.readLine())!=null){
+            StringTokenizer st=new StringTokenizer(line);
+            locationNames.add(st.nextToken());
+            locationHeuristics.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        distances=new int[locationNames.size()][locationNames.size()];
+        
+        while((line=brProps.readLine())!=null){
+            StringTokenizer st=new StringTokenizer(line);
+            
+            String source=st.nextToken();
+            String dest=st.nextToken();
+            int dist=Integer.parseInt(st.nextToken());
+            
+            distances[locationNames.indexOf(source)][locationNames.indexOf(dest)]=dist;
+        }
+    }
 	
-	
-	void createList()
-	{
-	  System.out.println("Enter station names(in order):");
-	  for(int i=0;i<nos;i++)
-	  {
-	    scanf("%s",station_names[i]);
-	  }
-	}
 }
