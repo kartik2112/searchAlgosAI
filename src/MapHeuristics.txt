@@ -9,10 +9,10 @@ Hirsova 151
 Iasi 226
 Lugoj 244
 Mehadia 241
-Nemat 234
+Neamt 234
 Oradea 380
 Pitesti 98
-Rimnicu Vilcea 193
+Rimnicu_Vilcea 193
 Sibiu 253
 Timisoara 329
 Urziceni 80
