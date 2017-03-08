@@ -119,20 +119,23 @@ class MapOfRomania{
     }
 	
     void displayMap(){
+        System.out.print("        ");
         for(int i=0;i<locationNames.size();i++){
-            System.out.print(locationNames.get(i));
+            System.out.print(String.format("%6s", locationNames.get(i).substring(0,locationNames.get(i).length()<6?locationNames.get(i).length():6)));
+            //System.out.print(locationNames.get(i));
             if(i!=locationNames.size()-1){
-                System.out.print(", ");
+                System.out.print("  ");
             }
         }
         System.out.println();
         
         for(int i=0;i<distances.length;i++){
+            System.out.print(String.format("%6s  ", locationNames.get(i).substring(0,locationNames.get(i).length()<6?locationNames.get(i).length():6)));
             for(int j=0;j<distances[i].length;j++){
-                System.out.print(String.format("%4s", distances[i][j]));
+                System.out.print(String.format("%6s", distances[i][j]));
                 //System.out.print();
                 if(j!=distances[i].length-1){
-                    System.out.print(", ");
+                    System.out.print("  ");
                 }
             }
             System.out.println();
