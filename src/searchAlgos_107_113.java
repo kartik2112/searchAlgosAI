@@ -6,6 +6,11 @@ public class searchAlgos_107_113{
 	public static void main(String args[]) throws Exception{
 		MapOfRomania map=new MapOfRomania();
 		map.displayMap();
+                
+                Scanner sc=new Scanner(System.in);
+                
+                
+                bfs(map);
 		/*
 		do
 		{ 
@@ -75,8 +80,53 @@ public class searchAlgos_107_113{
 	    printf("%s->",station_names[stack[i]]);
 	  printf("%s\n",station_names[stack[top]]);
 	}*/
-		
 	
+        static void bfs(MapOfRomania map)
+        {
+            int list[][]=map.distances;
+            int no_of_nodes=map.locationNames.size();
+            
+            Vector visited=new Vector();
+            Vector toBeVisited=new Vector();
+            
+            int currentVisiting=source;
+//            toBeVisited.add(currentVisiting);
+            while(currentVisiting!=dest&&visited.size()<no_of_nodes)
+            {
+                System.out.println("Current Node Visited:"+currentVisiting);
+                if(currentVisiting==dest)
+                {
+                    System.out.println("Node found");
+                    break;
+                }
+                visited.add(currentVisiting);
+                for(int i=0;i<no_of_nodes;i++)
+                {
+                    if(list[currentVisiting][i]==1&&!visited.contains(i)&&!toBeVisited.contains(i))
+                        toBeVisited.add(i);
+                }
+                
+                //System.out.println(toBeVisited);
+                
+                int nextNode=dequeue(toBeVisited);
+                if(nextNode==-1)
+                    break;
+                else
+                    currentVisiting=nextNode;
+            }
+            if(currentVisiting!=dest)
+                System.out.println("Node not found!");
+            else
+                System.out.println("Node Found");
+        }
+        
+	static int dequeue(Vector v)
+        {
+            if(v.size()>0)
+                return (int)v.remove(0);
+            else
+                return -1;
+        }
 }
 
 class MapOfRomania{
