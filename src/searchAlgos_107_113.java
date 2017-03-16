@@ -143,6 +143,11 @@ class MapOfRomania{
         BufferedReader brHeurs=new BufferedReader(new FileReader(MAP_HEURISTICS_FILE_PATH));
               
         String line;
+        
+        /**
+         * This loop reads the heuristics and 
+         * stores both the names of the locations and the heuristics
+         */
         while((line=brHeurs.readLine())!=null){
             StringTokenizer st=new StringTokenizer(line);
             locationNames.add(st.nextToken());
@@ -151,6 +156,10 @@ class MapOfRomania{
         
         distances=new int[locationNames.size()][locationNames.size()];
         
+        
+        /**
+         * This loop reads the properties file and stores the distances between all the locations
+         */
         while((line=brProps.readLine())!=null){
             StringTokenizer st=new StringTokenizer(line);
             
@@ -168,6 +177,10 @@ class MapOfRomania{
         }
     }
 	
+    
+    /**
+     * This function displays the graph in matrix form
+     */
     void displayMap(){
         System.out.print("        ");
         for(int i=0;i<locationNames.size();i++){
