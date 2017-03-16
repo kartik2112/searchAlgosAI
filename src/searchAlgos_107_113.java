@@ -9,6 +9,11 @@ public class searchAlgos_107_113{
                 
                 Scanner sc=new Scanner(System.in);
                 
+                String SourceName=sc.next();
+                String DestName=sc.next();
+                
+                source=map.locationNames.indexOf(SourceName);
+                dest=map.locationNames.indexOf(DestName);
                 
                 bfs(map);
         }
@@ -18,13 +23,23 @@ public class searchAlgos_107_113{
             int list[][]=map.distances;
             int no_of_nodes=map.locationNames.size();
             
+            Node root=new Node();
+            
+            root.setId(source);
+            root.setName(map.locationNames.elementAt(source));
+            root.setParent(null);
+            
             Vector visited=new Vector();
             Vector toBeVisited=new Vector();
-            
+            Vector <Node>toBeVisitedNode=new Vector<Node>();
             int currentVisiting=source;
-//            toBeVisited.add(currentVisiting);
+            toBeVisitedNode.add(root);
+            Node currentNode;
+            currentNode=root;
+//          toBeVisited.add(currentVisiting);
             while(currentVisiting!=dest&&visited.size()<no_of_nodes)
             {
+                
                 System.out.println("Current Node Visited:"+currentVisiting);
                 if(currentVisiting==dest)
                 {
@@ -35,7 +50,14 @@ public class searchAlgos_107_113{
                 for(int i=0;i<no_of_nodes;i++)
                 {
                     if(list[currentVisiting][i]==1&&!visited.contains(i)&&!toBeVisited.contains(i))
+                    {
+                        Node child=new Node();
+                        child.setId(i);
+                        child.setName(map.locationNames.elementAt(currentVisiting));
+                        child.setParent(currentNode);
+                        currentNode.Children.add(child);
                         toBeVisited.add(i);
+                    }
                 }
                 
                 //System.out.println(toBeVisited);
@@ -44,7 +66,10 @@ public class searchAlgos_107_113{
                 if(nextNode==-1)
                     break;
                 else
+                {
                     currentVisiting=nextNode;
+                    currentNode=toBeVisitedNode.elementAt(0);
+                }
             }
             if(currentVisiting!=dest)
                 System.out.println("Node not found!");
@@ -123,4 +148,49 @@ class MapOfRomania{
             System.out.println();
         }
     }
+}
+
+
+class Node
+{
+    Node parent=new Node();
+    int id;
+    String name;
+    Vector<Node> Children=new Vector<Node>();
+
+    
+    
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Vector<Node> getChildren() {
+        return Children;
+    }
+
+    public void setChildren(Vector<Node> Children) {
+        this.Children = Children;
+    }
+    
+    
 }
