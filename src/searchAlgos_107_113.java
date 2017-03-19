@@ -84,6 +84,9 @@ public class searchAlgos_107_113{
             Vector<Integer> visitedList=new Vector<Integer>();
             Vector<Integer> adjNodesList=new Vector<Integer>();
             
+            Vector<Node> visitedListNodes=new Vector<Node>();
+            Vector<Node> adjNodesListNodes=new Vector<Node>();
+            
             int currentVisiting=source;
             visitedList.add(source);
             
@@ -198,11 +201,28 @@ class MapOfRomania{
 class Node
 {
     Node parent=new Node();
+    int distanceFromSource;
     int id;
     String name;
     Vector<Node> Children=new Vector<Node>();
-
     
+    Node(Node par,int distFromSrc,String name){
+        parent=par;
+        distanceFromSource=distFromSrc;
+        name=new String(name);
+    }
+    
+    Node(){
+        distanceFromSource=0;
+    }
+
+    public int getDistanceFromSource() {
+        return distanceFromSource;
+    }
+
+    public void setDistanceFromSource(int distanceFromSource) {
+        this.distanceFromSource = distanceFromSource;
+    }
     
     public Node getParent() {
         return parent;
@@ -236,5 +256,8 @@ class Node
         this.Children = Children;
     }
     
+    public void addChild(Node n){
+        Children.add(n);
+    }
     
 }
