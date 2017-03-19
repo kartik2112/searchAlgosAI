@@ -171,6 +171,7 @@ class MapOfRomania{
                 System.out.println(dest);
             }
             distances[locationNames.indexOf(source)][locationNames.indexOf(dest)]=dist;
+            distances[locationNames.indexOf(dest)][locationNames.indexOf(source)]=dist;
         }
     }
 	
