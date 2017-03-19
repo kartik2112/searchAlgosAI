@@ -17,7 +17,9 @@ public class searchAlgos_107_113{
             source=map.locationNames.indexOf(SourceName);
             dest=map.locationNames.indexOf(DestName);
 
-            //bfs(map);
+            System.out.println("\n------------BFS (Uninformed)--------------------------\n");
+            bfs(map);
+            System.out.println("\n------------A* Search Algorithm (Informed)------------\n");
             AStar(map);
     }
 
@@ -121,7 +123,7 @@ public class searchAlgos_107_113{
         {
             if(currentVisiting==dest)
             {
-                System.out.println("Destination Node found");
+                System.out.println("Destination Node found!");
                 String path=Node.displayPathRecursive(visitedListNodes.get(visitedList.indexOf(dest)));
                 System.out.println("\nPath from "+map.locationNames.get(source)+" to "+map.locationNames.get(dest)+" is:");
                 System.out.println(path);
@@ -201,17 +203,17 @@ public class searchAlgos_107_113{
         else
             return -1;
     }
-        
+                
     public static void displayVectorLocationNames(Vector<Integer> v,MapOfRomania map){
-        System.out.print("{ ");
-        for(int i=0;i<v.size();i++){
-            System.out.print(map.locationNames.get(v.get(i)));
-            if(i!=v.size()-1){
-                System.out.print(", ");
+            System.out.print("{ ");
+            for(int i=0;i<v.size();i++){
+                System.out.print(map.locationNames.get(v.get(i)));
+                if(i!=v.size()-1){
+                    System.out.print(", ");
+                }
             }
+            System.out.println(" }");
         }
-        System.out.println(" }");
-    }
 
     private static String preparePathFromVector(Vector <String>path) {
         String s=new String();
@@ -231,8 +233,8 @@ class MapOfRomania{
     Vector<Integer> locationHeuristics=new Vector<Integer>();
     int distances[][];
         
-    public static final String MAP_PROPERTIES_FILE_PATH="/Users/varunrao/Documents/searchAlgosAI/src/MapProperties.txt";
-    public static final String MAP_HEURISTICS_FILE_PATH="/Users/varunrao/Documents/searchAlgosAI/src/MapHeuristics.txt";
+    public static final String MAP_PROPERTIES_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapProperties.txt";
+    public static final String MAP_HEURISTICS_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapHeuristics.txt";
 
     /*
     Paths for input file
@@ -393,7 +395,7 @@ class Node
             return n.name;
         }
         else{
-            return displayPathRecursive(n.parent)+"->"+n.name;
+            return displayPathRecursive(n.parent)+" \u2192 "+n.name;
         }
     }
     
