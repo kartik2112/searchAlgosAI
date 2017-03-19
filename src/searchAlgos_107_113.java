@@ -121,7 +121,7 @@ public class searchAlgos_107_113{
                         adjNodesListNodes.add(new Node(curNodeInVisited,
                                                 list[currentVisiting][i]+curNodeInVisited.distanceFromSource,
                                                 map.locationNames.get(i),i) );
-                        System.out.print("");
+                        
                     }
                 }
                 
@@ -229,6 +229,7 @@ class MapOfRomania{
                 System.out.println(dest);
             }
             distances[locationNames.indexOf(source)][locationNames.indexOf(dest)]=dist;
+            distances[locationNames.indexOf(dest)][locationNames.indexOf(source)]=dist;
         }
     }
 	
