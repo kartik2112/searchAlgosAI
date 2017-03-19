@@ -400,3 +400,104 @@ class Node
     }
     
 }
+
+/*
+Output:
+
+          Arad  Buchar  Craiov  Dobret  Eforie  Fagara  Giurgi  Hirsov    Iasi   Lugoj  Mehadi   Neamt  Oradea  Pitest  Rimnic   Sibiu  Timiso  Urzice  Vaslui  Zerind
+  Arad       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0     140     118       0       0      75
+Buchar       0       0       0       0       0     211      90       0       0       0       0       0       0     101       0       0       0      85       0       0
+Craiov       0       0       0     120       0       0       0       0       0       0       0       0       0     138     146       0       0       0       0       0
+Dobret       0       0     120       0       0       0       0       0       0       0      75       0       0       0       0       0       0       0       0       0
+Eforie       0       0       0       0       0       0       0      86       0       0       0       0       0       0       0       0       0       0       0       0
+Fagara       0     211       0       0       0       0       0       0       0       0       0       0       0       0       0      99       0       0       0       0
+Giurgi       0      90       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0
+Hirsov       0       0       0       0      86       0       0       0       0       0       0       0       0       0       0       0       0      98       0       0
+  Iasi       0       0       0       0       0       0       0       0       0       0       0      87       0       0       0       0       0       0      92       0
+ Lugoj       0       0       0       0       0       0       0       0       0       0      70       0       0       0       0       0     111       0       0       0
+Mehadi       0       0       0      75       0       0       0       0       0      70       0       0       0       0       0       0       0       0       0       0
+ Neamt       0       0       0       0       0       0       0       0      87       0       0       0       0       0       0       0       0       0       0       0
+Oradea       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0     151       0       0       0      71
+Pitest       0     101     138       0       0       0       0       0       0       0       0       0       0       0      97       0       0       0       0       0
+Rimnic       0       0     146       0       0       0       0       0       0       0       0       0       0      97       0      80       0       0       0       0
+ Sibiu     140       0       0       0       0      99       0       0       0       0       0       0     151       0      80       0       0       0       0       0
+Timiso     118       0       0       0       0       0       0       0       0     111       0       0       0       0       0       0       0       0       0       0
+Urzice       0      85       0       0       0       0       0      98       0       0       0       0       0       0       0       0       0       0     142       0
+Vaslui       0       0       0       0       0       0       0       0      92       0       0       0       0       0       0       0       0     142       0       0
+Zerind      75       0       0       0       0       0       0       0       0       0       0       0      71       0       0       0       0       0       0       0
+Enter source city:Arad
+Enter destination city:Bucharest
+
+------------BFS (Uninformed)--------------------------
+
+Current Node Visited:Arad
+Current Node Visited:Sibiu
+Current Node Visited:Timisoara
+Current Node Visited:Zerind
+Current Node Visited:Fagaras
+Current Node Visited:Oradea
+Current Node Visited:Rimnicu_Vilcea
+Current Node Visited:Lugoj
+Current Node Visited:Bucharest
+Node Found
+Path:
+Arad→Sibiu→Fagaras→Bucharest
+
+------------A* Search Algorithm (Informed)------------
+
+Visited Nodes List: { Arad }
+Adjacent Nodes List: { Sibiu, Timisoara, Zerind }
+Adjacent Nodes Costs:
+Sibiu -> 140 + 253 = 393
+Timisoara -> 118 + 329 = 447
+Zerind -> 75 + 374 = 449
+Minimum cost node chosen for next iteration: Sibiu
+
+Visited Nodes List: { Arad, Sibiu }
+Adjacent Nodes List: { Timisoara, Zerind, Fagaras, Oradea, Rimnicu_Vilcea }
+Adjacent Nodes Costs:
+Timisoara -> 118 + 329 = 447
+Zerind -> 75 + 374 = 449
+Fagaras -> 239 + 178 = 417
+Oradea -> 291 + 380 = 671
+Rimnicu_Vilcea -> 220 + 193 = 413
+Minimum cost node chosen for next iteration: Rimnicu_Vilcea
+
+Visited Nodes List: { Arad, Sibiu, Rimnicu_Vilcea }
+Adjacent Nodes List: { Timisoara, Zerind, Fagaras, Oradea, Craiova, Pitesti }
+Adjacent Nodes Costs:
+Timisoara -> 118 + 329 = 447
+Zerind -> 75 + 374 = 449
+Fagaras -> 239 + 178 = 417
+Oradea -> 291 + 380 = 671
+Craiova -> 366 + 160 = 526
+Pitesti -> 317 + 98 = 415
+Minimum cost node chosen for next iteration: Pitesti
+
+Visited Nodes List: { Arad, Sibiu, Rimnicu_Vilcea, Pitesti }
+Adjacent Nodes List: { Timisoara, Zerind, Fagaras, Oradea, Craiova, Bucharest }
+Adjacent Nodes Costs:
+Timisoara -> 118 + 329 = 447
+Zerind -> 75 + 374 = 449
+Fagaras -> 239 + 178 = 417
+Oradea -> 291 + 380 = 671
+Craiova -> 366 + 160 = 526
+Bucharest -> 418 + 0 = 418
+Minimum cost node chosen for next iteration: Fagaras
+
+Visited Nodes List: { Arad, Sibiu, Rimnicu_Vilcea, Pitesti, Fagaras }
+Adjacent Nodes List: { Timisoara, Zerind, Oradea, Craiova, Bucharest }
+Adjacent Nodes Costs:
+Timisoara -> 118 + 329 = 447
+Zerind -> 75 + 374 = 449
+Oradea -> 291 + 380 = 671
+Craiova -> 366 + 160 = 526
+Bucharest -> 418 + 0 = 418
+Minimum cost node chosen for next iteration: Bucharest
+
+Destination Node found
+
+Path from Arad to Bucharest is:
+Arad → Sibiu → Rimnicu_Vilcea → Pitesti → Bucharest
+
+*/
