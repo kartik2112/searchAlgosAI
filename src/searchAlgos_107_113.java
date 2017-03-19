@@ -9,90 +9,37 @@ public class searchAlgos_107_113{
                 
                 Scanner sc=new Scanner(System.in);
                 
+                String SourceName=sc.next();
+                String DestName=sc.next();
+                
+                source=map.locationNames.indexOf(SourceName);
+                dest=map.locationNames.indexOf(DestName);
                 
                 bfs(map);
-		/*
-		do
-		{ 
-		 printf("1.Up(Towards %s)\n",station_names[0]);
-		 printf("2.Down(Towards %s)",station_names[nos-1]);
-		 printf("\n3.Display Map Representation");
-		 printf("\n0.Exit\nEnter your choice:");
-		 scanf("%d",&ch);
-		 switch(ch)
-		 {
-		   case 1:display_stations();
-			      printf("Enter source: ");
-			      scanf("%d",&source);
-			      printf("Enter destination:");
-			      scanf("%d",&dest);
-			      dfs(up,source,dest);
-			      break;
-		   case 2:display_stations();
-			      printf("Enter source: ");
-			      scanf("%d",&source);
-			      printf("Enter destination:");
-			      scanf("%d",&dest);
-			      dfs(down,source,dest);
-			      break;
-		   case 3:bfs(down,0);
-			      break;
-		 }
-		}while(ch!=0);*/
-		
-		
-	}
-	
-	/*void create_links()
-	{
-	  int i,j,n,station;
-	  for(i=0;i<nos;i++)
-	  {
-	    printf("Enter number of immediately next stations of %s:",station_names[i]);
-	    scanf("%d",&n);
-	    if(n!=0)
-	    {
-	      display_stations();
-		printf("Enter corresponding station numbers:\n");
-	      for(j=0;j<n;j++)
-	      {
-		scanf("%d",&station);
-		down[i][station]=1;
-		up[station][i]=1;
-	      }
-	    }
-	  }
-	}
-	static void BFS(int list[][MAX],int source,int dest)
-	{
-            
-	}
-	void display_stations()
-	{
-	  int j;
-	  for(j=0;j<nos;j++)
-	    printf("%d. %s\n",j,station_names[j]);
-	}
-	void display_list(int stack[],int top)
-	{
-	  int i;
-	  for(i=0;i<top;i++)
-	    printf("%s->",station_names[stack[i]]);
-	  printf("%s\n",station_names[stack[top]]);
-	}*/
+        }
 	
         static void bfs(MapOfRomania map)
         {
             int list[][]=map.distances;
             int no_of_nodes=map.locationNames.size();
             
+            Node root=new Node();
+            
+            root.setId(source);
+            root.setName(map.locationNames.elementAt(source));
+            root.setParent(null);
+            
             Vector visited=new Vector();
             Vector toBeVisited=new Vector();
-            
+            Vector <Node>toBeVisitedNode=new Vector<Node>();
             int currentVisiting=source;
-//            toBeVisited.add(currentVisiting);
+            toBeVisitedNode.add(root);
+            Node currentNode;
+            currentNode=root;
+//          toBeVisited.add(currentVisiting);
             while(currentVisiting!=dest&&visited.size()<no_of_nodes)
             {
+                
                 System.out.println("Current Node Visited:"+currentVisiting);
                 if(currentVisiting==dest)
                 {
@@ -103,7 +50,14 @@ public class searchAlgos_107_113{
                 for(int i=0;i<no_of_nodes;i++)
                 {
                     if(list[currentVisiting][i]==1&&!visited.contains(i)&&!toBeVisited.contains(i))
+                    {
+                        Node child=new Node();
+                        child.setId(i);
+                        child.setName(map.locationNames.elementAt(currentVisiting));
+                        child.setParent(currentNode);
+                        currentNode.Children.add(child);
                         toBeVisited.add(i);
+                    }
                 }
                 
                 //System.out.println(toBeVisited);
@@ -112,7 +66,10 @@ public class searchAlgos_107_113{
                 if(nextNode==-1)
                     break;
                 else
+                {
                     currentVisiting=nextNode;
+                    currentNode=toBeVisitedNode.elementAt(0);
+                }
             }
             if(currentVisiting!=dest)
                 System.out.println("Node not found!");
@@ -235,4 +192,49 @@ class MapOfRomania{
             System.out.println();
         }
     }
+}
+
+
+class Node
+{
+    Node parent=new Node();
+    int id;
+    String name;
+    Vector<Node> Children=new Vector<Node>();
+
+    
+    
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Vector<Node> getChildren() {
+        return Children;
+    }
+
+    public void setChildren(Vector<Node> Children) {
+        this.Children = Children;
+    }
+    
+    
 }
