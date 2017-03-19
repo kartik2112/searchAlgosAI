@@ -120,6 +120,37 @@ public class searchAlgos_107_113{
                 System.out.println("Node Found");
         }
         
+        static void AStar(MapOfRomania map){
+            int list[][]=map.distances;
+            int no_of_nodes=map.locationNames.size();
+            
+            Vector<Integer> visitedList=new Vector<Integer>();
+            Vector<Integer> adjNodesList=new Vector<Integer>();
+            
+            int currentVisiting=source;
+            visitedList.add(source);
+            
+            while(currentVisiting!=dest&&visitedList.size()<no_of_nodes)
+            {
+                if(currentVisiting==dest)
+                {
+                    System.out.println("Node found");
+                    break;
+                }
+                
+                for(int i=0;i<no_of_nodes;i++)
+                {
+                    if(list[currentVisiting][i]>0&&!visitedList.contains(i)&&!adjNodesList.contains(i))
+                        adjNodesList.add(i);
+                }
+                
+                int minCost=9999999;
+                for(int i=0;i<adjNodesList.size();i++){
+                    
+                }
+            }
+        }
+        
 	static int dequeue(Vector v)
         {
             if(v.size()>0)
