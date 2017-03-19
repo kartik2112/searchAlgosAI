@@ -99,29 +99,41 @@ public class searchAlgos_107_113{
             visitedList.add(source);
             visitedListNodes.add(new Node(null,0,map.locationNames.get(source),source));
             
-            while(currentVisiting!=dest&&visitedList.size()<no_of_nodes)
+            while(visitedList.size()<no_of_nodes)
             {
                 if(currentVisiting==dest)
                 {
-                    System.out.println("Node found");
+                    System.out.println("Destination Node found");
+                    String path=Node.displayPathRecursive(visitedListNodes.get(visitedList.indexOf(dest)));
+                    System.out.println("\nPath from "+map.locationNames.get(source)+" to "+map.locationNames.get(dest)+" is:");
+                    System.out.println(path);
                     break;
                 }
                 
                 for(int i=0;i<no_of_nodes;i++)
                 {
-                    if(list[currentVisiting][i]>0&&!visitedList.contains(i)&&!adjNodesList.contains(i)){
-                        adjNodesList.add(i);
+                    if(list[currentVisiting][i]>0&&!visitedList.contains(i)){                        
                         
                         /**
                          * Add Node object to adjNodesListNodes
-                         * First, the parent Node reference in visitedListNodes is found
+                         * First, the parent Node reference in visitedListNodes is found and stored in @curNodeInVisited
                          * This is used for calculating the distance of the adjacent nodes from source and to store the parent reference in this node
                          */
                         Node curNodeInVisited=visitedListNodes.get(visitedList.indexOf(currentVisiting));
-                        adjNodesListNodes.add(new Node(curNodeInVisited,
+                        if(adjNodesList.contains(i)){
+                            Node adjNode=adjNodesListNodes.get(adjNodesList.indexOf(i));
+                            if( (list[currentVisiting][i]+curNodeInVisited.distanceFromSource) < adjNode.distanceFromSource){
+                                adjNode.setDistanceFromSource(list[currentVisiting][i]+curNodeInVisited.distanceFromSource);
+                                adjNode.setParent(curNodeInVisited);
+                            }
+                        }
+                        else{
+                            adjNodesList.add(i);
+                            adjNodesListNodes.add(new Node(curNodeInVisited,
                                                 list[currentVisiting][i]+curNodeInVisited.distanceFromSource,
                                                 map.locationNames.get(i),i) );
-                        
+                        }
+                                                
                     }
                 }
                 
@@ -330,6 +342,15 @@ class Node
     
     public void addChild(Node n){
         Children.add(n);
+    }
+    
+    public static String displayPathRecursive(Node n){
+        if(n.parent==null){
+            return n.name;
+        }
+        else{
+            return displayPathRecursive(n.parent)+"->"+n.name;
+        }
     }
     
 }
