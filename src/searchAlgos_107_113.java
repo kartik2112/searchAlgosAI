@@ -9,7 +9,9 @@ public class searchAlgos_107_113{
                 
                 Scanner sc=new Scanner(System.in);
                 
+                System.out.print("Enter source city:");
                 String SourceName=sc.next();
+                System.out.print("Enter destination city:");
                 String DestName=sc.next();
                 
                 source=map.locationNames.indexOf(SourceName);
@@ -33,30 +35,31 @@ public class searchAlgos_107_113{
             Vector toBeVisited=new Vector();
             Vector <Node>toBeVisitedNode=new Vector<Node>();
             int currentVisiting=source;
-            toBeVisitedNode.add(root);
-            Node currentNode;
+ //           toBeVisitedNode.add(root);
+            Node currentNode=new Node();
             currentNode=root;
 //          toBeVisited.add(currentVisiting);
-            while(currentVisiting!=dest&&visited.size()<no_of_nodes)
+            while(visited.size()<no_of_nodes)
             {
-                
-                System.out.println("Current Node Visited:"+currentVisiting);
+                System.out.println("Current Node Visited:"+currentNode.name);
                 if(currentVisiting==dest)
                 {
-                    System.out.println("Node found");
                     break;
                 }
                 visited.add(currentVisiting);
                 for(int i=0;i<no_of_nodes;i++)
                 {
-                    if(list[currentVisiting][i]==1&&!visited.contains(i)&&!toBeVisited.contains(i))
+                    if(list[currentVisiting][i]>0&&!visited.contains(i)&&!toBeVisited.contains(i))
                     {
+                        //System.out.println("Cities near "+map.locationNames.elementAt(currentVisiting)+":"+map.locationNames.elementAt(i));
                         Node child=new Node();
                         child.setId(i);
-                        child.setName(map.locationNames.elementAt(currentVisiting));
+                        child.setName(map.locationNames.elementAt(i));
                         child.setParent(currentNode);
                         currentNode.Children.add(child);
+                        toBeVisitedNode.add(child);
                         toBeVisited.add(i);
+                        //System.out.println("Cities near "+map.locationNames.elementAt(currentVisiting)+":"+child.name);
                     }
                 }
                 
@@ -68,13 +71,28 @@ public class searchAlgos_107_113{
                 else
                 {
                     currentVisiting=nextNode;
-                    currentNode=toBeVisitedNode.elementAt(0);
+                    currentNode=toBeVisitedNode.remove(0);
                 }
             }
             if(currentVisiting!=dest)
                 System.out.println("Node not found!");
             else
+            {
                 System.out.println("Node Found");
+                System.out.println("Path:");
+                Vector <String>path=new Vector<String>();
+                do
+                {
+                    //System.out.println(currentNode.getName());
+                    path.add(currentNode.getName());
+                    currentNode=currentNode.getParent();
+                }
+                while(currentNode!=null);
+                
+                String PATH=preparePathFromVector(path);
+                
+                System.out.println(PATH);
+            }
         }
         
 	static int dequeue(Vector v)
@@ -84,6 +102,18 @@ public class searchAlgos_107_113{
             else
                 return -1;
         }
+
+    private static String preparePathFromVector(Vector <String>path) {
+        String s=new String();
+        s="";
+        for(int i=path.size()-1;i>=0;i--)
+        {
+            s=s+path.elementAt(i);
+            if(i>0)
+                s=s+"\u2192";
+        }
+        return s;
+    }
 }
 
 class MapOfRomania{
@@ -91,9 +121,19 @@ class MapOfRomania{
     Vector<Integer> locationHeuristics=new Vector<Integer>();
     int distances[][];
         
-    public static final String MAP_PROPERTIES_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapProperties.txt";
-    public static final String MAP_HEURISTICS_FILE_PATH="F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapHeuristics.txt";
+    public static final String MAP_PROPERTIES_FILE_PATH="/Users/varunrao/Documents/searchAlgosAI/src/MapProperties.txt";
+    public static final String MAP_HEURISTICS_FILE_PATH="/Users/varunrao/Documents/searchAlgosAI/src/MapHeuristics.txt";
 
+    /*
+    Paths for input file
+    
+    VR Mac props:/Users/varunrao/Documents/searchAlgosAI/src/MapProperties.txt
+    VR Mac heuristics:/Users/varunrao/Documents/searchAlgosAI/src/MapHeuristics.txt
+    
+    SK PC props:F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapProperties.txt
+    SK PC heuristics:F:\\OneDrive\\Projects\\Netbeans Projects\\searchAlgosAI\\src\\MapHeuristics.txt
+    */
+    
     public MapOfRomania() throws FileNotFoundException,IOException{
         
         BufferedReader brProps=new BufferedReader(new FileReader(MAP_PROPERTIES_FILE_PATH));
@@ -166,7 +206,7 @@ class MapOfRomania{
 
 class Node
 {
-    Node parent=new Node();
+    Node parent;
     int id;
     String name;
     Vector<Node> Children=new Vector<Node>();
@@ -178,7 +218,11 @@ class Node
     }
 
     public void setParent(Node parent) {
-        this.parent = parent;
+        if(this!=parent)
+        {
+            this.parent=new Node();
+            this.parent = parent;
+        }
     }
 
     public int getId() {
