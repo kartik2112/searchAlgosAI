@@ -121,7 +121,7 @@ public class searchAlgos_107_113{
                         adjNodesListNodes.add(new Node(curNodeInVisited,
                                                 list[currentVisiting][i]+curNodeInVisited.distanceFromSource,
                                                 map.locationNames.get(i),i) );
-                        
+                        System.out.print("");
                     }
                 }
                 
@@ -159,7 +159,7 @@ public class searchAlgos_107_113{
                 visitedList.add(currentVisiting);
                 visitedListNodes.add(selectedNode);
                 
-                System.out.println("Minimum cost node chosen for next iteration: "+map.locationNames.get(currentVisiting));
+                System.out.println("Minimum cost node chosen for next iteration: "+map.locationNames.get(currentVisiting)+"\n");
                 
             }
         }
@@ -172,15 +172,15 @@ public class searchAlgos_107_113{
                 return -1;
         }
         
-        static void displayVectorLocationNames(Vector v,MapOfRomania map){
+        static void displayVectorLocationNames(Vector<Integer> v,MapOfRomania map){
             System.out.print("{ ");
             for(int i=0;i<v.size();i++){
-                System.out.print(map.locationNames.get(i));
+                System.out.print(map.locationNames.get(v.get(i)));
                 if(i!=v.size()-1){
                     System.out.print(", ");
                 }
             }
-            System.out.print(" }");
+            System.out.println(" }");
         }
 }
 
@@ -270,16 +270,17 @@ class MapOfRomania{
  */
 class Node
 {
-    Node parent=new Node();
+    Node parent;
     int distanceFromSource;
     int id;
     String name;
     Vector<Node> Children=new Vector<Node>();
     
     Node(Node par,int distFromSrc,String name,int id){
-        parent=par;
-        distanceFromSource=distFromSrc;
-        name=new String(name);
+        this.parent=par;
+        this.distanceFromSource=distFromSrc;
+        this.name=new String(name);
+        this.id=id;
     }
     
     Node(){
