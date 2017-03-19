@@ -17,7 +17,8 @@ public class searchAlgos_107_113{
                 source=map.locationNames.indexOf(SourceName);
                 dest=map.locationNames.indexOf(DestName);
                 
-                bfs(map);
+                //bfs(map);
+                AStar(map);
         }
 	
         static void bfs(MapOfRomania map)
@@ -95,6 +96,104 @@ public class searchAlgos_107_113{
             }
         }
         
+        static void AStar(MapOfRomania map){
+            int list[][]=map.distances;
+            int no_of_nodes=map.locationNames.size();
+            
+            /**
+             * These will hold location no
+             */
+            Vector<Integer> visitedList=new Vector<Integer>();
+            Vector<Integer> adjNodesList=new Vector<Integer>();
+                        
+            /**
+             * These are used to keep objects
+             * These will hold distance from source values and parent reference
+             */
+            Vector<Node> visitedListNodes=new Vector<Node>();
+            Vector<Node> adjNodesListNodes=new Vector<Node>();
+            
+            int currentVisiting=source;
+            visitedList.add(source);
+            visitedListNodes.add(new Node(null,0,map.locationNames.get(source),source));
+            
+            while(visitedList.size()<no_of_nodes)
+            {
+                if(currentVisiting==dest)
+                {
+                    System.out.println("Destination Node found");
+                    String path=Node.displayPathRecursive(visitedListNodes.get(visitedList.indexOf(dest)));
+                    System.out.println("\nPath from "+map.locationNames.get(source)+" to "+map.locationNames.get(dest)+" is:");
+                    System.out.println(path);
+                    break;
+                }
+                
+                for(int i=0;i<no_of_nodes;i++)
+                {
+                    if(list[currentVisiting][i]>0&&!visitedList.contains(i)){                        
+                        
+                        /**
+                         * Add Node object to adjNodesListNodes
+                         * First, the parent Node reference in visitedListNodes is found and stored in @curNodeInVisited
+                         * This is used for calculating the distance of the adjacent nodes from source and to store the parent reference in this node
+                         */
+                        Node curNodeInVisited=visitedListNodes.get(visitedList.indexOf(currentVisiting));
+                        if(adjNodesList.contains(i)){
+                            Node adjNode=adjNodesListNodes.get(adjNodesList.indexOf(i));
+                            if( (list[currentVisiting][i]+curNodeInVisited.distanceFromSource) < adjNode.distanceFromSource){
+                                adjNode.setDistanceFromSource(list[currentVisiting][i]+curNodeInVisited.distanceFromSource);
+                                adjNode.setParent(curNodeInVisited);
+                            }
+                        }
+                        else{
+                            adjNodesList.add(i);
+                            adjNodesListNodes.add(new Node(curNodeInVisited,
+                                                list[currentVisiting][i]+curNodeInVisited.distanceFromSource,
+                                                map.locationNames.get(i),i) );
+                        }
+                                                
+                    }
+                }
+                
+                System.out.print("Visited Nodes List: ");
+                displayVectorLocationNames(visitedList, map);
+                
+                System.out.print("Adjacent Nodes List: ");
+                displayVectorLocationNames(adjNodesList, map);
+                
+                
+                int minCost=9999999,tempCurrVisiting=-1;
+                
+                /**
+                 * Here i,tempCurrVisiting is not location No but rather index of Node in vector
+                 */
+                System.out.println("Adjacent Nodes Costs:");
+                for(int i=0;i<adjNodesList.size();i++){
+                    int distFrmSrc=adjNodesListNodes.get(i).distanceFromSource;
+                    int heur=map.locationHeuristics.get(adjNodesListNodes.get(i).id);
+                    int totalCostOfNode=distFrmSrc+heur;
+                    System.out.println(adjNodesListNodes.get(i).name+" -> "+distFrmSrc+" + "+heur+" = "+totalCostOfNode);
+                    
+                    if(totalCostOfNode<minCost){
+                        minCost=totalCostOfNode;
+                        tempCurrVisiting=i;
+                    }
+                }
+                
+                /**
+                 * The next node is selected based on heuristics and distance from source to this node.
+                 * This node is removed from adjacent nodes list and added to visited list.
+                 */
+                currentVisiting=adjNodesList.remove(tempCurrVisiting);
+                Node selectedNode=adjNodesListNodes.remove(tempCurrVisiting);
+                visitedList.add(currentVisiting);
+                visitedListNodes.add(selectedNode);
+                
+                System.out.println("Minimum cost node chosen for next iteration: "+map.locationNames.get(currentVisiting)+"\n");
+                
+            }
+        }
+        
 	static int dequeue(Vector v)
         {
             if(v.size()>0)
@@ -102,7 +201,17 @@ public class searchAlgos_107_113{
             else
                 return -1;
         }
-
+        
+    public static void displayVectorLocationNames(Vector<Integer> v,MapOfRomania map){
+            System.out.print("{ ");
+            for(int i=0;i<v.size();i++){
+                System.out.print(map.locationNames.get(v.get(i)));
+                if(i!=v.size()-1){
+                    System.out.print(", ");
+                }
+            }
+            System.out.println(" }");
+        }
     private static String preparePathFromVector(Vector <String>path) {
         String s=new String();
         s="";
@@ -205,14 +314,38 @@ class MapOfRomania{
 }
 
 
+/**
+ * @parent will hold the reference of the parent Node for the current Node
+ * @distanceFromSource will hold the distance of the current node from the source
+ * @id will hold the location No as used as an index for the locationNames
+ * @Children is a vector containing the references of all child Nodes of the current node
+ */
 class Node
 {
     Node parent;
+    int distanceFromSource;
     int id;
     String name;
     Vector<Node> Children=new Vector<Node>();
-
     
+    Node(Node par,int distFromSrc,String name,int id){
+        this.parent=par;
+        this.distanceFromSource=distFromSrc;
+        this.name=new String(name);
+        this.id=id;
+    }
+    
+    Node(){
+        distanceFromSource=0;
+    }
+
+    public int getDistanceFromSource() {
+        return distanceFromSource;
+    }
+
+    public void setDistanceFromSource(int distanceFromSource) {
+        this.distanceFromSource = distanceFromSource;
+    }
     
     public Node getParent() {
         return parent;
@@ -250,5 +383,17 @@ class Node
         this.Children = Children;
     }
     
+    public void addChild(Node n){
+        Children.add(n);
+    }
+    
+    public static String displayPathRecursive(Node n){
+        if(n.parent==null){
+            return n.name;
+        }
+        else{
+            return displayPathRecursive(n.parent)+"->"+n.name;
+        }
+    }
     
 }
