@@ -495,7 +495,7 @@ Craiova -> 366 + 160 = 526
 Bucharest -> 418 + 0 = 418
 Minimum cost node chosen for next iteration: Bucharest
 
-Destination Node found
+Destination Node found!
 
 Path from Arad to Bucharest is:
 Arad → Sibiu → Rimnicu_Vilcea → Pitesti → Bucharest
